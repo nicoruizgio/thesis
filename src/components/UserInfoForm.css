@@ -1,0 +1,19 @@
+.center-form-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f8f9fa;
+
+}
+
+.card-form {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  min-width: 350px;
+  max-width: 600px;
+  width: 100%;
+  margin: 2rem;
+}

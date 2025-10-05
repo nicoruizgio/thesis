@@ -1,0 +1,27 @@
+.searchbar-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.searchbar-input {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 700px;
+  margin-right: 0.5rem;
+}
+
+.searchbar-button {
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #007acc;
+  color: #fff;
+  cursor: pointer;
+}
