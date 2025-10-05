@@ -4,6 +4,9 @@
 
 [build.environment]
   NODE_VERSION = "20.10.0"
+  SECRETS_SCAN_OMIT_KEYS = "VITE_SUPABASE_ANON_KEY,VITE_SUPABASE_URL"
+  # Or to fully disable (alternative):
+  # SECRETS_SCAN_ENABLED = "false"
 
 [[redirects]]
   from = "/*"
