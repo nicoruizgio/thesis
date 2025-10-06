@@ -10,7 +10,7 @@ function YouTubePlayerPage() {
     async function fetchTranscript() {
       if (!videoId) return;
       try {
-        await fetch(`http://localhost:5000/api/transcript/${videoId}`);
+        await fetch(`/api/transcript/${videoId}`);
       } catch (error) {
         console.error('Error fetching transcript:', error);
       }

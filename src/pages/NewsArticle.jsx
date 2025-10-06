@@ -25,7 +25,7 @@ export default function NewsArticle() {
     setArticle(null);
 
     try {
-      const res = await fetch("http://localhost:5000/api/news-article", {
+      const res = await fetch("/api/news-article", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),

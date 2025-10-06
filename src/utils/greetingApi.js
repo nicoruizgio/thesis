@@ -1,6 +1,6 @@
 export async function generateGreeting(type = 'video') {
   try {
-    const response = await fetch('http://127.0.0.1:5000/api/generate-greeting', {
+    const response = await fetch('/api/generate-greeting', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
