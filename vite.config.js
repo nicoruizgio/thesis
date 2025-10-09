@@ -4,4 +4,14 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      '/api': {
+        target: 'https://thesis-backend-wvmc.onrender.com',
+        changeOrigin: true,
+        secure: true,
+        // no rewrite needed: backend already serves under /api/*
+      },
+    },
+  },
 })
