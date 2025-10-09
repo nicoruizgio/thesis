@@ -40,7 +40,7 @@ const Chatbot = ({ videoId }) => {
     setIsLoading(true);
 
     // Add loading indicator
-    setMessages((msgs) => [...msgs, { from: "bot", text: "..." }]);
+    setMessages((msgs) => [...msgs, { from: "bot", loading: true }]);
 
     try {
       const botReply = await sendMessageToApi(input, videoId);
@@ -86,7 +86,13 @@ const Chatbot = ({ videoId }) => {
                 <GiMonoWheelRobot />
               </span>
             )}
-            {msg.text}
+            <div className="message-content">
+              {msg.loading ? (
+                <div className="chatbot-spinner" aria-label="Loading" />
+              ) : (
+                msg.text
+              )}
+            </div>
           </div>
         ))}
       </div>

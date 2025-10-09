@@ -75,7 +75,7 @@ const ArticleChatbot = ({
         ); // removed highlightQuestionType argument
 
         // Add loading indicator
-        setMessages((msgs) => [...msgs, { from: "bot", text: "..." }]);
+        setMessages((msgs) => [...msgs, { from: "bot", loading: true }]);
 
         try {
           // Include selected text in the API call
@@ -208,7 +208,7 @@ const ArticleChatbot = ({
     }
 
     // Add loading indicator
-    setMessages((msgs) => [...msgs, { from: "bot", text: "..." }]);
+    setMessages((msgs) => [...msgs, { from: "bot", loading: true }]);
 
     try {
       // Include selected text in the API call if it exists
@@ -334,10 +334,14 @@ const ArticleChatbot = ({
             )}
 
             <div className="message-content">
-              {msg.from === "bot" ? (
-                <SourceParser text={msg.text} />
+              {msg.loading ? (
+                <div className="chatbot-spinner" aria-label="Loading" />
               ) : (
-                msg.text
+                msg.from === "bot" ? (
+                  <SourceParser text={msg.text} />
+                ) : (
+                  msg.text
+                )
               )}
             </div>
           </div>
