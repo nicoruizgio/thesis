@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import { sendMessageToApi } from "../utils/chatApi";
 import { generateGreeting } from "../utils/greetingApi";
 import { logConversation } from "../utils/supabaseLogger";
@@ -8,6 +8,7 @@ import { GiMonoWheelRobot } from "react-icons/gi";
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import SourceParser from './SourceParser';
+import { getParticipant } from "../utils/auth";
 
 const ArticleChatbot = ({
   article,
@@ -26,6 +27,12 @@ const ArticleChatbot = ({
   const [currentSelectedText, setCurrentSelectedText] = useState("");
   const textareaRef = useRef(null);
   const messagesContainerRef = useRef(null);
+  const participantIdRef = useRef(getParticipant()?.participant_id || 'anon');
+  const loadedFromStorageRef = useRef(false);
+  const storageKey = useMemo(
+    () => `chat:${participantIdRef.current}:${article?.id || 'unknown'}`,
+    [article?.id]
+  );
 
   // Notify parent when loading state changes
   useEffect(() => {
@@ -147,20 +154,49 @@ const ArticleChatbot = ({
     }
   }, [questionInput, onQuestionInputProcessed, onTextProcessed, isLoading, article]);
 
-  // Generate greeting when article changes
+  // Restore messages from storage (if any)
+  useEffect(() => {
+    if (!article) return;
+    try {
+      const raw = sessionStorage.getItem(storageKey);
+      if (raw) {
+        const saved = JSON.parse(raw);
+        if (Array.isArray(saved.messages) && saved.messages.length) {
+          loadedFromStorageRef.current = true;
+          setMessages(saved.messages);
+          setIsInitializing(false); // skip greeting
+        }
+      }
+    } catch (e) {
+      console.error('Failed to load chat from storage', e);
+    }
+  }, [article, storageKey]);
+
+  // Save messages to storage (skip transient loading item)
+  useEffect(() => {
+    if (!article) return;
+    try {
+      const toSave = messages.filter(m => !m.loading);
+      sessionStorage.setItem(storageKey, JSON.stringify({ messages: toSave }));
+    } catch (e) {
+      console.error('Failed to save chat', e);
+    }
+  }, [messages, article, storageKey]);
+
+  // Generate greeting when article changes (but not if restored)
   useEffect(() => {
     const initializeChat = async () => {
-      if (article) {
-        setIsInitializing(true);
-        try {
-          const greeting = await generateGreeting('article');
-          setMessages([{ from: "bot", text: greeting }]);
-        } catch (error) {
-          console.error('Error initializing chat:', error);
-          setMessages([{ from: "bot", text: "Hi! How can I help you with this article?" }]);
-        } finally {
-          setIsInitializing(false);
-        }
+      if (!article) return;
+      if (loadedFromStorageRef.current) return; // already restored, do nothing
+      setIsInitializing(true);
+      try {
+        const greeting = await generateGreeting('article');
+        setMessages([{ from: "bot", text: greeting }]);
+      } catch (error) {
+        console.error('Error initializing chat:', error);
+        setMessages([{ from: "bot", text: "Hi! How can I help you with this article?" }]);
+      } finally {
+        setIsInitializing(false);
       }
     };
 
