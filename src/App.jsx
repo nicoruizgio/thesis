@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import ArticlesList from './pages/ArticlesList';
 import ArticlePage from './pages/ArticlePage';
 import './App.css';
+import IntroVideo from './pages/IntroVideo';
 
 function AppContent() {
   const navigate = useNavigate();
@@ -28,8 +29,8 @@ function AppContent() {
     // Log participant in Supabase
     await logParticipant();
 
-    // Always redirect to home after login
-    navigate('/');
+    // Always redirect to intro video after login
+    navigate('/intro');
   };
 
   const handleLogout = () => {
@@ -72,6 +73,7 @@ function AppContent() {
 
       <Routes>
         <Route path="/" element={<ArticlesList />} />
+        <Route path="/intro" element={<IntroVideo />} />
         <Route path="/articles" element={<ArticlesList />} />
         <Route path="/articles/:id" element={<ArticlePage />} />
       </Routes>
