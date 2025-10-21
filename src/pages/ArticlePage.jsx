@@ -124,10 +124,10 @@ export default function ArticlePage() {
       const question = target.getAttribute('data-question');
       setChatbotSelectedText("");
       if (question && passage) {
+        // Prefill the chatbot input and show the passage context; user can edit and send
         setChatbotQuestionInput({
           question,
-          passage,
-          autoSend: true
+          passage
         });
       }
       setShowTooltip(false);

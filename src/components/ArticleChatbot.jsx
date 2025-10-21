@@ -25,6 +25,7 @@ const ArticleChatbot = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isInitializing, setIsInitializing] = useState(true);
   const [currentSelectedText, setCurrentSelectedText] = useState("");
+  const [selectionSource, setSelectionSource] = useState(null); // 'highlight' | 'manual' | null
   const textareaRef = useRef(null);
   const messagesContainerRef = useRef(null);
   const participantIdRef = useRef(getParticipant()?.participant_id || 'anon');
@@ -45,6 +46,7 @@ const ArticleChatbot = ({
   useEffect(() => {
     if (selectedText && selectedText !== currentSelectedText) {
       setCurrentSelectedText(selectedText);
+      setSelectionSource('manual'); // manual selection via Ask button
     }
   }, [selectedText, currentSelectedText]);
 
@@ -56,95 +58,19 @@ const ArticleChatbot = ({
       return;
     }
 
-    if (questionInput && typeof questionInput === 'object' && questionInput.autoSend) {
-      // Auto-send the question when it comes from highlighted passages
-      const sendHighlightQuestion = async () => {
-        const { question, passage } = questionInput; // removed type
-
-        // Create the user message with context
-        const userMsg = {
-          from: "user",
-          text: question,
-          selectedText: passage,
-          timestamp: new Date().toISOString()
-        };
-
-        setMessages((msgs) => [...msgs, userMsg]);
-        setIsLoading(true);
-
-        // Log highlighted passage question
-        await logConversation(
-          article?.id || 'unknown',
-          'user',
-          question,
-          'highlighted_passage',
-          passage
-        ); // removed highlightQuestionType argument
-
-        // Add loading indicator
-        setMessages((msgs) => [...msgs, { from: "bot", loading: true }]);
-
-        try {
-          // Include selected text in the API call
-          const messageWithContext = `Selected text: "${passage}"\n\nQuestion: ${question}`;
-          const articleData = {
-            title: article.title,
-            authors: article.authors,
-            text: article.text
-          };
-          const botReply = await sendMessageToApi(messageWithContext, null, 'article', articleData);
-
-          // Log bot reply
-          await logConversation(
-            article?.id || 'unknown',
-            'bot',
-            botReply
-          );
-
-          // Remove loading indicator and add actual reply
-          setMessages((msgs) => {
-            const newMsgs = [...msgs];
-            newMsgs.pop(); // Remove the loading message
-            return [...newMsgs, {
-              from: "bot",
-              text: botReply,
-              timestamp: new Date().toISOString()
-            }];
-          });
-        } catch (error) {
-          console.error("Chat error:", error);
-          const errorMessage = "Sorry, there was an error processing your request.";
-
-          // Log error message
-          await logConversation(
-            article?.id || 'unknown',
-            'bot',
-            errorMessage
-          );
-
-          setMessages((msgs) => {
-            const newMsgs = [...msgs];
-            newMsgs.pop(); // Remove the loading message
-            return [...newMsgs, {
-              from: "bot",
-              text: errorMessage,
-              timestamp: new Date().toISOString()
-            }];
-          });
-        } finally {
-          setIsLoading(false);
-          // Clear all states after sending - this should clear the blue context box
-          setCurrentSelectedText("");
-          if (onTextProcessed) {
-            onTextProcessed();
-          }
-          if (onQuestionInputProcessed) {
-            onQuestionInputProcessed();
-          }
-        }
-      };
-
-      sendHighlightQuestion();
+    // Prefill the input with the suggested question and keep the passage context visible.
+    if (questionInput && typeof questionInput === 'object') {
+      const { question, passage } = questionInput;
+      if (question) setInput(question);
+      if (passage) {
+        setCurrentSelectedText(passage);
+        setSelectionSource('highlight'); // clicked highlighted passage
+      }
+      // Focus the textarea so the user can edit immediately
+      setTimeout(() => textareaRef.current?.focus(), 0);
+      if (onQuestionInputProcessed) {
+        onQuestionInputProcessed();
+      }
     } else if (questionInput && typeof questionInput === 'string' && questionInput.trim()) {
       // Handle regular string questions (if any other part of the app uses this)
       setInput(questionInput);
@@ -216,6 +142,7 @@ const ArticleChatbot = ({
   // Simplify handleSendMessage to only handle manual user input
   const handleSendMessage = useCallback(async (messageText) => {
     const hadSelectedText = currentSelectedText;
+    const hadSelectionSource = selectionSource; // capture origin at send time
     const userMsg = {
       from: "user",
       text: messageText,
@@ -228,7 +155,9 @@ const ArticleChatbot = ({
     setIsLoading(true);
 
     // Log user message
-    const userMessageType = hadSelectedText ? 'selected_passage' : 'direct';
+    const userMessageType = hadSelectedText
+      ? (hadSelectionSource === 'highlight' ? 'highlighted_passage' : 'selected_passage')
+      : 'direct';
     await logConversation(
       article?.id || 'unknown',
       'user',
@@ -240,6 +169,7 @@ const ArticleChatbot = ({
     // Clear selected text immediately when sending message
     if (hadSelectedText) {
       setCurrentSelectedText("");
+      setSelectionSource(null);
       onTextProcessed?.();
     }
 
@@ -299,7 +229,7 @@ const ArticleChatbot = ({
     } finally {
       setIsLoading(false);
     }
-  }, [currentSelectedText, onTextProcessed, article]);
+  }, [currentSelectedText, selectionSource, onTextProcessed, article]);
 
   const handleSend = async (e) => {
     e.preventDefault();
@@ -321,6 +251,7 @@ const ArticleChatbot = ({
 
   const handleClearSelection = () => {
     setCurrentSelectedText("");
+    setSelectionSource(null);
     onTextProcessed?.();
   };
 
