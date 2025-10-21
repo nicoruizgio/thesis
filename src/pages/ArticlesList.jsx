@@ -1,58 +1,21 @@
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
 import { articles } from "../data/articles";
-import { questionsByArticle } from "../data/questions";
 import { logArticleVisit } from "../utils/supabaseLogger";
 import "./Home.css";
 import "./articles.css";
 
-// Fisher-Yates shuffle algorithm
-const shuffleArray = (array) => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
+const DESIRED_ORDER = ["art-005", "art-002", "art-003", "art-001", "art-004"];
 
-// Get shuffled articles from sessionStorage or create new shuffle
-const getShuffledArticles = () => {
-  try {
-    const stored = sessionStorage.getItem('shuffled_articles');
-    if (stored) {
-      const parsedArticles = JSON.parse(stored);
-      // Verify the stored articles are still valid (same length and structure)
-      if (parsedArticles.length === articles.length) {
-        console.log('Using existing shuffled articles from sessionStorage');
-        return parsedArticles;
-      }
-    }
-  } catch (error) {
-    console.error('Error reading shuffled articles from sessionStorage:', error);
-  }
-
-  // Create new shuffle if none exists or is invalid
-  console.log('Creating new shuffled articles order');
-  const shuffled = shuffleArray(articles);
-  try {
-    sessionStorage.setItem('shuffled_articles', JSON.stringify(shuffled));
-  } catch (error) {
-    console.error('Error saving shuffled articles to sessionStorage:', error);
-  }
-  return shuffled;
+const getArticlesInOrder = () => {
+  const byId = new Map(articles.map(a => [a.id, a]));
+  const main = DESIRED_ORDER.map(id => byId.get(id)).filter(Boolean);
+  const extras = articles.filter(a => !DESIRED_ORDER.includes(a.id));
+  return [...main, ...extras];
 };
 
 export default function ArticlesList() {
   const navigate = useNavigate();
-  const [shuffledArticles, setShuffledArticles] = useState([]);
-  const initRef = useRef(false);
-
-  useEffect(() => {
-    if (initRef.current) return;
-    initRef.current = true;
-    setShuffledArticles(getShuffledArticles());
-  }, []);
+  const orderedArticles = getArticlesInOrder();
 
   const handleArticleClick = async (article) => {
     await logArticleVisit(article.id, article.title);
@@ -62,7 +25,7 @@ export default function ArticlesList() {
   return (
     <div className="home-options articles-list">
       <div className="articles-grid">
-        {shuffledArticles.map(article => (
+        {orderedArticles.map(article => (
           <div
             key={article.id}
             className="option-card article-card"
