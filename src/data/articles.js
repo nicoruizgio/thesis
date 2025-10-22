@@ -91,9 +91,6 @@ export const articles = [
   }
 
 
-
-
-
 ];
 
 export function getArticleById(id) {
