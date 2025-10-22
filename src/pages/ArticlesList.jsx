@@ -4,7 +4,7 @@ import { logArticleVisit } from "../utils/supabaseLogger";
 import "./Home.css";
 import "./articles.css";
 
-const DESIRED_ORDER = ["art-005", "art-002", "art-003", "art-001", "art-004"];
+const DESIRED_ORDER = ["art-001", "art-002", "art-003"];
 
 const getArticlesInOrder = () => {
   const byId = new Map(articles.map(a => [a.id, a]));

@@ -7,30 +7,6 @@ const PLACEHOLDER_IMAGE = "/placeholder.jpg"; // put a placeholder.jpg in /publi
 export const articles = [
   {
     id: "art-001",
-    title: "German labour market remains gloomy, economic institute reports",
-    headline: null,
-    authors: null,
-    date: "2025-05-26",
-    source: "DPA International",
-    section: "Economy",
-    url: "https://example.com/articles/energy-transition-accelerates",
-    image: "/art-001.png",
-    imageAlt: "Labour market indicators in Germany",
-    paragraphs: [
-      "The outlook for the German labour market may have improved marginally, but it remains gloomy, a leading economic institute said on Monday.",
-      "The Institute for Employment Research (IAB), based in the southern city of Nuremberg, said its labour market barometer rose for the second month in a row in May. However, at 98.9 points, the barometer is still below the neutral mark of 100 points.",
-      "A value of 90 points would indicate a particularly poor climate, while 110 points would mark a positive development.",
-      "The IAB barometer is based on a monthly survey of all local employment agencies regarding their forecasts for the next three months.",
-      "The barometer is an early indicator of the future situation on the labour market. The IAB is set to publish its May statistics on Wednesday.",
-      "The indicator for forecasting unemployment rose by 0.3 points from the previous month. \"Without a turnaround in economic development, unemployment will continue to rise,\" said IAB labour market expert Enzo Weber.",
-      "The employment indicator rose only minimally by 0.1 points to 100.1 points, slightly above the neutral mark for the first time since the beginning of the year. \"The outlook for the labour market is not deteriorating further, but there is no sign of a breakthrough,\" Weber said.",
-      "Meanwhile, the Munich-based ifo Institute sees initial signs of stabilization. Its employment barometer rose to 95.2 points in May, from 94 points in April.",
-      "\"Whether this will turn into a real trend reversal depends largely on further economic developments,\" ifo expert Klaus Wohlrabe emphasized."
-    ],
-    get text() { return this.paragraphs.join("\n\n"); }
-  },
-  {
-    id: "art-002",
     title: "German opposition slams government's budget plans",
     headline: null,
     authors: "Magdalena Henkel",
@@ -38,7 +14,7 @@ export const articles = [
     source: "DPA International Service in English",
     section: "Politics",
     url: "https://example.com/articles/german-budget-plans",
-    image: "/art-002.png",
+    image: "/art-001.png",
     imageAlt: "German parliament debating budget plans",
     paragraphs: [
       "Berlin (dpa) - Members of Germany's opposition on Tuesday ripped into the government's plans for the 2025 budget, which are set to be at the heart of parliamentary debate this week.",
@@ -58,7 +34,7 @@ export const articles = [
     get text() { return this.paragraphs.join("\n\n"); }
   },
   {
-    id: "art-003",
+    id: "art-002",
     title: "Germany's army needs to more than double in size, commander says",
     headline: "100,000 more active troops needed to meet NATO targets",
     authors: "Sabine Siebold",
@@ -66,7 +42,7 @@ export const articles = [
     source: "Reuters News",
     section: "Defense",
     url: "https://example.com/articles/german-army-expansion",
-    image: "/art-004.png",          // served from public/
+    image: "/art-002.png",          // served from public/
     imageAlt: "German soldiers during military exercises",
     paragraphs: [
       "BERLIN, Sept 11 (Reuters) - Germany's army needs to add 100,000 active troops to its existing 62,000 to meet new NATO targets intended to boost preparedness for the growing threat of Russian aggression, its commander says in a confidential paper seen by Reuters on Thursday.",
@@ -84,32 +60,7 @@ export const articles = [
     get text() { return this.paragraphs.join("\n\n"); }
   },
   {
-    id: "art-004",
-    title: "German home prices set for steady recovery over next two years, affordability to worsen",
-    headline: "Home prices to rise 3% in 2025 after two-year decline, Reuters poll shows",
-    authors: "Indradip Ghosh",
-    date: "2025-09-16",
-    source: "Reuters News",
-    section: "Economy",
-    url: "https://example.com/articles/german-home-prices-recovery",
-    image: "/art-005.png",          // served from public/
-    imageAlt: "Residential buildings in a German city, symbolizing the housing market",
-    paragraphs: [
-      "German home prices will rise 3% in 2025, after a two-year decline, and grow slightly faster through 2027, according to a Reuters poll of property experts who said affordability would worsen.",
-      "The real estate sector in Europe's biggest economy is gradually emerging from its deepest slump in decades, recent data showed, cushioned by the European Central Bank's cumulative 200 basis points of interest rate cuts.",
-      "Home prices increased 3.8% year-on-year in the first quarter, the fastest quarterly growth since 2022, while home building permits - an indicator of future construction activity - surged 7.9% in June from a year earlier.",
-      "However, broader subdued economic conditions pose risks to a sustained housing market recovery. Germany's economy contracted last quarter, dimming expectations of a prolonged recovery.",
-      "Home prices will increase 3.0% in 2025, their first lift in three years, and 3.5% in 2026, the September 3-15 Reuters poll of 14 property analysts found. They fell 8.4% in 2023 and 1.5% last year.",
-      "\"The recovery in the housing market continues, despite stagnating affordability of purchasing residential real estate, and we do not see any indications of a reversal of this trend. However, the high level of uncertainty, both economically and geopolitically... is likely to continue to weigh on consumer confidence,\" said Carsten Brzeski, global head of macro at ING.",
-      "Eleven of the 14 analysts said affordability for first-time home buyers would worsen over the coming year, despite the ECB being expected to hold rates for a long period.",
-      "\"A further substantial improvement in affordability is not foreseeable for the remainder of 2025 and the coming year,\" said Sebastian Wunsch, head of property economic analyses at GEWOS, an independent consulting and research institute.",
-      "\"Given the continued very low number of building permits for rental housing construction... the market situation is unlikely to change fundamentally in the foreseeable future,\" Wunsch said.",
-      "Average urban home rents will increase 3%-5% over the coming year, according to the poll's median view, despite government plans to extend rent controls."
-    ],
-    get text() { return this.paragraphs.join("\n\n"); }
-  },
-  {
-    id: "art-005",
+    id: "art-003",
     title: "Local election to test Merz coalition",
     headline: "North Rhine-Westphalia vote seen as first major test for Friedrich Merz's government",
     authors: null,
@@ -117,7 +68,7 @@ export const articles = [
     source: "DW English",
     section: "Politics",
     url: "https://example.com/articles/nrw-election-merz-coalition",
-    image: "/art-006.png", // served from public/
+    image: "/art-003.png", // served from public/
     imageAlt: "Campaign posters and people voting in North Rhine-Westphalia local elections",
     paragraphs: [
       "Political parties will be holding final campaigns ahead of a local election in North Rhine-Westphalia. The poll is being seen locally as the first test of Friedrich Merz's coalition government.",
@@ -138,7 +89,6 @@ export const articles = [
     ],
     get text() { return this.paragraphs.join("\n\n"); }
   }
-  ,
 
 
 

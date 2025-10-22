@@ -14,7 +14,7 @@ export default function IntroVideo() {
       <div className="intro-center">
         <div className="intro-video-frame">
           <video
-            src="/demo.mp4"
+            src="/demo1.mp4"
             controls
             className="intro-video"
           />
