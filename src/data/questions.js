@@ -1,30 +1,6 @@
 export const questionsByArticle = {
-  "art-001": {
-    questions: [
-      {
-        question: "What is the Institute for Employment Research (IAB)?",
-        verbatim_passage:
-          "The Institute for Employment Research (IAB), based in the southern city of Nuremberg, said its labour market barometer rose for the second month in a row in May."
-      },
-      {
-        question: "What are local employment agencies in Germany?",
-        verbatim_passage:
-          "The IAB barometer is based on a monthly survey of all local employment agencies regarding their forecasts for the next three months."
-      },
-      {
-        question: "What is the ifo Institute?",
-        verbatim_passage:
-          "Meanwhile, the Munich-based ifo Institute sees initial signs of stabilization."
-      },
-      {
-        question: "Who uses the IAB barometer in Germany for decision-making?",
-        verbatim_passage:
-          "The barometer is an early indicator of the future situation on the labour market."
-      }
-    ]
-  },
 
-  "art-002": {
+  "art-001": {
     questions: [
       {
         question: "What is Germany’s debt brake?",
@@ -64,7 +40,7 @@ export const questionsByArticle = {
     ]
   },
 
-  "art-003": {
+  "art-002": {
     questions: [
       {
         question: "How does the reservist system work in Germany’s military?",
@@ -84,32 +60,7 @@ export const questionsByArticle = {
     ]
   },
 
-  "art-004": {
-    questions: [
-      {
-        question: "How do European Central Bank interest rate changes affect mortgage rates in Germany?",
-        verbatim_passage:
-          "The real estate sector in Europe's biggest economy is gradually emerging from its deepest slump in decades, recent data showed, cushioned by the European Central Bank's cumulative 200 basis points of interest rate cuts."
-      },
-      {
-        question: "Which authority issues home building permits in Germany?",
-        verbatim_passage:
-          "Home building permits - an indicator of future construction activity - surged 7.9% in June from a year earlier."
-      },
-      {
-        question: "How is housing affordability measured in Germany?",
-        verbatim_passage:
-          "The recovery in the housing market continues, despite stagnating affordability of purchasing residential real estate, and we do not see any indications of a reversal of this trend."
-      },
-      {
-        question: "How do rent controls work in Germany?",
-        verbatim_passage:
-          "Average urban home rents will increase 3%-5% over the coming year, according to the poll's median view, despite government plans to extend rent controls."
-      }
-    ]
-  },
-
-  "art-005": {
+  "art-003": {
     questions: [
       {
         question: "What is a district administrator in Germany?",
